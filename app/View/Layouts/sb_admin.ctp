@@ -22,29 +22,30 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Blabla</h1>
+			<h1></h1>
 		</div>
 		<div id="content">
-            <?php $flash = $this->Session->flash() ?>
-            <?php if (!empty($flash)) : ?>
-            <div class="alert alert-danger">
-                <?php echo $flash ?>
-            </div>
-            <?php endif ?>
 
+            <!-- NAWIGACJA -->
             <?php echo $this->element('menu'); ?>
 
+            <!-- FLASH KOMUNIKATY -->
+            <?php $flash = $this->Session->flash() ?>
+            <?php if (!empty($flash)) : ?>
+                <div class="alert alert-danger">
+                    <?php echo $flash ?>
+                </div>
+            <?php endif ?>
+
+            <!-- TREŚĆ STRONY -->
             <div id="wrapper">
 			    <?php echo $this->fetch('content'); ?>
             </div>
 
 		</div>
-		<div id="footer">
-			<p>
-                <br /><br /><br />
-				&lt;footer here&gt;
-			</p>
-		</div>
+
+        <!-- STOPKA -->
+		<div id="footer"></div>
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
     <?php

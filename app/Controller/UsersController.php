@@ -173,8 +173,6 @@ class UsersController extends AppController
      */
     public function login()
     {
-        $this->layout = 'login';
-
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
 
@@ -185,19 +183,21 @@ class UsersController extends AppController
                         'controller' => 'users',
                         'action' => 'students'
                     );
-                    $this->Cookie->write();
+                    $this->Session->write('user_role', 'student');
                 }
                 else if ($loginData['Group']['name'] == 'Teachers') {
                     $this->Auth->loginRedirect = array(
                         'controller' => 'users',
                         'action' => 'teachers'
                     );
+                    $this->Session->write('user_role', 'teacher');
                 }
                 else if ($loginData['Group']['name'] == 'Admins') {
                     $this->Auth->loginRedirect = array(
                         'controller' => 'users',
                         'action' => 'admins'
                     );
+                    $this->Session->write('user_role', 'admin');
                 }
                 return $this->redirect($this->Auth->redirect());
             }
@@ -232,11 +232,15 @@ class UsersController extends AppController
         $this->Acl->allow($group, 'controllers/users/logout');
         $this->Acl->allow($group, 'controllers/users/teachers');
 
+        $this->Acl->allow($group, 'controllers/pages/display');
+
         // Students
         $group->id = 3;
         $this->Acl->deny($group, 'controllers');
         $this->Acl->allow($group, 'controllers/users/logout');
         $this->Acl->allow($group, 'controllers/users/students');
+
+        $this->Acl->allow($group, 'controllers/pages/display/manual');
 
         // we add an exit to avoid an ugly "missing views" error message
         echo "all done";
@@ -248,6 +252,12 @@ class UsersController extends AppController
     }
 
     public function students() {
+        $panelHeader = 'student';
+
+        $loggedUser = $this->Auth->user();
+        $username = $loggedUser['username'];
+
+        $this->set(compact('panelHeader', 'username'));
 
     }
 

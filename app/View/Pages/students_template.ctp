@@ -2,13 +2,14 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> <?php echo $username ?> <small><?php echo $panelHeader ?></small></h1>
+            <h1 class="page-header"> Student <small>Mateusz Grosiak</small></h1>
         </div>
+        <!-- /.col-lg-12 -->
     </div>
+    <!-- /.row -->
 
-    <!-- LARGE NOTIFICATIONS -->
-    <!--<div class="row">
 
+    <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-green">
                 <div class="panel-heading">
@@ -55,17 +56,17 @@
             </div>
         </div>
 
+
     </div>
-    <!---------->
-
-    <!--
+    <!-- /.row -->
     <div class="row">
-
         <div class="col-lg-8">
+            <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-clock-o fa-fw"></i> Zadania i projekty
                 </div>
+                <!-- /.panel-heading -->
                 <div class="panel-body">
                     <ul class="timeline">
                         <li>
@@ -142,10 +143,14 @@
                         </li>
                     </ul>
                 </div>
+                <!-- /.panel-body -->
             </div>
+            <!-- /.panel -->
         </div>
+        <!-- /.col-lg-8 -->
 
+        <!-- /.col-lg-4 -->
     </div>
-    -->
-
+    <!-- /.row -->
 </div>
+<!-- /#page-wrapper -->

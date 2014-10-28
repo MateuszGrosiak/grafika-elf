@@ -39,12 +39,16 @@ class AppController extends Controller {
                 'Actions' => array('actionPath' => 'controllers')
             )
         ),
-        'Session'
+        'Session',
+        'Cookie'
     );
 
     public $helpers = array('Html', 'Form', 'Session');
 
     public function beforeFilter() {
+        // set cookie helper
+        //$this->set('userRole', $this->Session->read('user_role'));
+
         //Configure AuthComponent
         $this->Auth->loginAction = array(
             'controller' => 'users',
