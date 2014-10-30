@@ -14,7 +14,7 @@
                     '<i class="fa fa-dashboard fa-fw"></i> Panel główny',
                     array(
                         'controller' => 'users',
-                        'action'     => 'students'
+                        'action'     => 'teachers'
                     ),
                     array(
                         'escape'     => false,
@@ -27,16 +27,35 @@
             </li>
 
             <li>
-                <a class="" href="index.html"><i class="fa fa-user-md fa-fw"></i> Grupy</a>
+                <?php
+
+                // check if tab should be active
+                ($this->params['controller'] =='groups') ?
+                    $active = 'active' : $active = '';
+
+                echo $this->Html->link(
+                    '<i class="fa fa-user-md fa-fw"></i> Grupy',
+                    array(
+                        'controller' => 'groups',
+                        'action'     => 'index'
+                    ),
+                    array(
+                        'escape'     => false,
+                        'class' => $active
+                    )
+                );
+                unset($active);
+
+                ?>
             </li>
 
-            <li>
-                <a class="" href="index.html"><i class="fa fa-user-md fa-fw"></i> Studenci</a>
-            </li>
+            <!--<li>
+                <a class="" href=""><i class="fa fa-user-md fa-fw"></i> Studenci</a>
+            </li>-->
 
-            <li>
-                <a class="" href="index.html"><i class="fa fa-user-md fa-fw"></i> Zadania</a>
-            </li>
+            <!--<li>
+                <a class="" href=""><i class="fa fa-user-md fa-fw"></i> Zadania</a>
+            </li>-->
 
         </ul>
     </div>

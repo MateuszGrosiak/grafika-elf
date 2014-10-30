@@ -2,7 +2,7 @@
 
 // check if user logged in
 // get user type
-$userType = $this->Session->read('Auth.User.Group.name');
+$userType = $this->Session->read('Auth.User.PermissionGroup.name');
 
 ?>
 

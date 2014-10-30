@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
- * @property Group $Group
+ * @property PermissionGroup $PErmissionGroup
  * @property Post $Post
  */
 class User extends AppModel {
@@ -34,7 +34,7 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'group_id' => array(
+		'permission_group_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -54,33 +54,12 @@ class User extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
+		'PermissionGroup' => array(
+			'className' => 'PermissionGroup',
+			'foreignKey' => 'permission_group_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Post' => array(
-			'className' => 'Post',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 
@@ -97,19 +76,19 @@ class User extends AppModel {
         if (!$this->id && empty($this->data)) {
             return null;
         }
-        if (isset($this->data['User']['group_id'])) {
-            $groupId = $this->data['User']['group_id'];
+        if (isset($this->data['User']['permission_group_id'])) {
+            $groupId = $this->data['User']['permission_group_id'];
         } else {
-            $groupId = $this->field('group_id');
+            $groupId = $this->field('permission_group_id');
         }
         if (!$groupId) {
             return null;
         } else {
-            return array('Group' => array('id' => $groupId));
+            return array('PermissionGroup' => array('id' => $groupId));
         }
     }
 
     public function bindNode($user) {
-        return array('model' => 'Group', 'foreign_key' => $user['User']['group_id']);
+        return array('model' => 'PermissionGroup', 'foreign_key' => $user['User']['permission_group_id']);
     }
 }

@@ -65,7 +65,7 @@ class UsersController extends AppController
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
             }
         }
-        $groups = $this->User->Group->find('list');
+        $groups = $this->User->PermissionGroup->find('list');
         $this->set(compact('groups'));
     }
 
@@ -76,12 +76,12 @@ class UsersController extends AppController
      */
     public function add_student() {
         if ($this->request->is('post')) {
-            $this->loadModel('Group');
-            $this->Group->unbindModel(array('hasMany' => 'User'));
+            $this->loadModel('PermissionGroup');
+            $this->PermissionGroup->unbindModel(array('hasMany' => 'User'));
 
             // Set user group to 'students'
-            $groupId = $this->Group->findByName('Students')['Group']['id'];
-            $this->request->data['User']['group_id'] = $groupId;
+            $groupId = $this->PermissionGroup->findByName('Students')['PermissionGroup']['id'];
+            $this->request->data['User']['permission_group_id'] = $groupId;
 
             // Save student
             $this->User->create();
@@ -101,12 +101,12 @@ class UsersController extends AppController
      */
     public function add_teacher() {
         if ($this->request->is('post')) {
-            $this->loadModel('Group');
-            $this->Group->unbindModel(array('hasMany' => 'User'));
+            $this->loadModel('PermissionGroup');
+            $this->PermissionGroup->unbindModel(array('hasMany' => 'User'));
 
             // Set user group to 'students'
-            $groupId = $this->Group->findByName('Teachers')['Group']['id'];
-            $this->request->data['User']['group_id'] = $groupId;
+            $groupId = $this->PermissionGroup->findByName('Teachers')['PermissionGroup']['id'];
+            $this->request->data['User']['permission_group_id'] = $groupId;
 
             // Save student
             $this->User->create();
@@ -142,7 +142,7 @@ class UsersController extends AppController
             $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
             $this->request->data = $this->User->find('first', $options);
         }
-        $groups = $this->User->Group->find('list');
+        $groups = $this->User->PermissionGroup->find('list');
         $this->set(compact('groups'));
     }
 
@@ -178,21 +178,21 @@ class UsersController extends AppController
 
                 // Redirect to user panel
                 $loginData = $this->Auth->user();
-                if ($loginData['Group']['name'] == 'Students') {
+                if ($loginData['PermissionGroup']['name'] == 'Students') {
                     $this->Auth->loginRedirect = array(
                         'controller' => 'users',
                         'action' => 'students'
                     );
                     $this->Session->write('user_role', 'student');
                 }
-                else if ($loginData['Group']['name'] == 'Teachers') {
+                else if ($loginData['PermissionGroup']['name'] == 'Teachers') {
                     $this->Auth->loginRedirect = array(
                         'controller' => 'users',
                         'action' => 'teachers'
                     );
                     $this->Session->write('user_role', 'teacher');
                 }
-                else if ($loginData['Group']['name'] == 'Admins') {
+                else if ($loginData['PermissionGroup']['name'] == 'Admins') {
                     $this->Auth->loginRedirect = array(
                         'controller' => 'users',
                         'action' => 'admins'
@@ -220,7 +220,7 @@ class UsersController extends AppController
      */
     public function initDB()
     {
-        $group = $this->User->Group;
+        $group = $this->User->PermissionGroup;
 
         // Admins
         $group->id = 1;
@@ -231,6 +231,12 @@ class UsersController extends AppController
         $this->Acl->deny($group, 'controllers');
         $this->Acl->allow($group, 'controllers/users/logout');
         $this->Acl->allow($group, 'controllers/users/teachers');
+
+        $this->Acl->allow($group, 'controllers/groups/index');
+        $this->Acl->allow($group, 'controllers/groups/view');
+        $this->Acl->allow($group, 'controllers/groups/add');
+        $this->Acl->allow($group, 'controllers/groups/edit');
+        $this->Acl->allow($group, 'controllers/groups/delete');
 
         $this->Acl->allow($group, 'controllers/pages/display');
 
